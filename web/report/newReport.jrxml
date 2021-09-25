@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a7216dd0-7035-4982-ab8c-ea28f5a54341">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numres" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     RESERVATION."NUM_RES" AS RESERVATION_NUM_RES,
+     RESERVATION."DATEDEBUT" AS RESERVATION_DATEDEBUT,
+     RESERVATION."DATEFIN" AS RESERVATION_DATEFIN,
+     RESERVATION."IDH" AS RESERVATION_IDH,
+     RESERVATION."IDCH" AS RESERVATION_IDCH,
+     RESERVATION."IDCLT" AS RESERVATION_IDCLT,
+     HOTEL."IDH" AS HOTEL_IDH,
+     HOTEL."NOMH" AS HOTEL_NOMH,
+     HOTEL."IDVILLE" AS HOTEL_IDVILLE,
+     HOTEL."IMG" AS HOTEL_IMG,
+     HOTEL."IDR" AS HOTEL_IDR,
+     HOTEL."ETAT" AS HOTEL_ETAT,
+     HOTEL."ADRESSE" AS HOTEL_ADRESSE,
+     HOTEL."IDETOILE" AS HOTEL_IDETOILE,
+     HOTEL."DATEPUB" AS HOTEL_DATEPUB,
+     CHAMBRE."IDCH" AS CHAMBRE_IDCH,
+     CHAMBRE."IMGCH" AS CHAMBRE_IMGCH,
+     CHAMBRE."PRIX" AS CHAMBRE_PRIX,
+     CHAMBRE."IDCAT" AS CHAMBRE_IDCAT,
+     CHAMBRE."IDH" AS CHAMBRE_IDH,
+     CHAMBRE."ETATCH" AS CHAMBRE_ETATCH,
+     CHAMBRE."NUMCH" AS CHAMBRE_NUMCH,
+     CLIENT."IDCLT" AS CLIENT_IDCLT,
+     CLIENT."CIN" AS CLIENT_CIN,
+     CLIENT."NOMCLT" AS CLIENT_NOMCLT,
+     CLIENT."PRENOMCLT" AS CLIENT_PRENOMCLT,
+     CLIENT."VILLECLT" AS CLIENT_VILLECLT,
+     CLIENT."ADRESSECLT" AS CLIENT_ADRESSECLT,
+     CLIENT."EMAIL" AS CLIENT_EMAIL,
+     CLIENT."TEL" AS CLIENT_TEL,
+     CLIENT."SITUATION" AS CLIENT_SITUATION
+FROM
+     "HOTEL"."HOTEL" HOTEL INNER JOIN "HOTEL"."RESERVATION" RESERVATION ON HOTEL."IDH" = RESERVATION."IDH"
+     INNER JOIN "HOTEL"."CHAMBRE" CHAMBRE ON HOTEL."IDH" = CHAMBRE."IDH"
+     AND CHAMBRE."IDCH" = RESERVATION."IDCH"
+     INNER JOIN "HOTEL"."CLIENT" CLIENT ON RESERVATION."IDCLT" = CLIENT."IDCLT"
+where RESERVATION."NUM_RES"=$P{numres}]]>
+	</queryString>
+	<field name="RESERVATION_NUM_RES" class="java.math.BigDecimal"/>
+	<field name="RESERVATION_DATEDEBUT" class="java.sql.Timestamp"/>
+	<field name="RESERVATION_DATEFIN" class="java.sql.Timestamp"/>
+	<field name="RESERVATION_IDH" class="java.math.BigDecimal"/>
+	<field name="RESERVATION_IDCH" class="java.lang.String"/>
+	<field name="RESERVATION_IDCLT" class="java.math.BigDecimal"/>
+	<field name="HOTEL_IDH" class="java.math.BigDecimal"/>
+	<field name="HOTEL_NOMH" class="java.lang.String"/>
+	<field name="HOTEL_IDVILLE" class="java.math.BigDecimal"/>
+	<field name="HOTEL_IMG" class="java.lang.String"/>
+	<field name="HOTEL_IDR" class="java.math.BigDecimal"/>
+	<field name="HOTEL_ETAT" class="java.lang.String"/>
+	<field name="HOTEL_ADRESSE" class="java.lang.String"/>
+	<field name="HOTEL_IDETOILE" class="java.math.BigDecimal"/>
+	<field name="HOTEL_DATEPUB" class="java.sql.Timestamp"/>
+	<field name="CHAMBRE_IDCH" class="java.lang.String"/>
+	<field name="CHAMBRE_IMGCH" class="java.lang.String"/>
+	<field name="CHAMBRE_PRIX" class="java.math.BigDecimal"/>
+	<field name="CHAMBRE_IDCAT" class="java.math.BigDecimal"/>
+	<field name="CHAMBRE_IDH" class="java.math.BigDecimal"/>
+	<field name="CHAMBRE_ETATCH" class="java.lang.String"/>
+	<field name="CHAMBRE_NUMCH" class="java.math.BigDecimal"/>
+	<field name="CLIENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_CIN" class="java.lang.String"/>
+	<field name="CLIENT_NOMCLT" class="java.lang.String"/>
+	<field name="CLIENT_PRENOMCLT" class="java.lang.String"/>
+	<field name="CLIENT_VILLECLT" class="java.lang.String"/>
+	<field name="CLIENT_ADRESSECLT" class="java.lang.String"/>
+	<field name="CLIENT_EMAIL" class="java.lang.String"/>
+	<field name="CLIENT_TEL" class="java.lang.String"/>
+	<field name="CLIENT_SITUATION" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="159" y="0" width="237" height="48" uuid="c6e8cf05-a3d6-4590-bb2b-83cd983a7feb"/>
+				<textElement textAlignment="Justified">
+					<font size="28"/>
+				</textElement>
+				<text><![CDATA[Fiche Reservation]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="222" splitType="Stretch">
+			<staticText>
+				<reportElement x="26" y="10" width="133" height="20" uuid="eb713e4c-e395-47df-8da7-0230819c9559"/>
+				<text><![CDATA[NUM RESERVATION:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="10" width="171" height="20" uuid="a6b3520b-db62-4f18-bcf5-e07d02f20461"/>
+				<textFieldExpression><![CDATA[$F{RESERVATION_NUM_RES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="30" width="100" height="20" uuid="75a26439-3e77-49b3-b438-56e187312a6b"/>
+				<text><![CDATA[NOM HOTEL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="30" width="100" height="20" uuid="536cff57-1e7e-447e-950b-5ed995d5f2ed"/>
+				<textFieldExpression><![CDATA[$F{HOTEL_NOMH}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="50" width="100" height="20" uuid="632df1ee-08b4-4779-84c7-1371c44f9cbe"/>
+				<text><![CDATA[NUM CHAMBRE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="50" width="100" height="20" uuid="6cafeddc-342d-47a1-b442-999066210369"/>
+				<textFieldExpression><![CDATA[$F{CHAMBRE_NUMCH}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="70" width="100" height="20" uuid="c30cb442-1d17-4d5c-b719-8596dba2590a"/>
+				<text><![CDATA[PRIX PAR JOUR:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="70" width="100" height="20" uuid="631e2eb9-7513-4a66-bc88-5388f02249e3"/>
+				<textFieldExpression><![CDATA[$F{CHAMBRE_PRIX}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="90" width="100" height="20" uuid="82332b80-71ce-4888-bcad-86df2be04d6c"/>
+				<text><![CDATA[DATEDEBUT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="90" width="100" height="20" uuid="ac5b57ba-ec02-4d2b-81ee-1d67ef15d56d"/>
+				<textFieldExpression><![CDATA[$F{RESERVATION_DATEDEBUT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="110" width="100" height="20" uuid="5d68d133-471e-4a26-a6cc-808abf70bf09"/>
+				<text><![CDATA[DATEFIN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="110" width="100" height="20" uuid="a950e1d8-63a4-41fb-93bd-92747524e869"/>
+				<textFieldExpression><![CDATA[$F{RESERVATION_DATEFIN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="129" width="100" height="20" uuid="1de90dcb-09e1-4bc3-833c-66e21eb23c1e"/>
+				<text><![CDATA[NOM:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="129" width="100" height="20" uuid="55f46321-da99-4a80-a12a-4943c4f8d660"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_NOMCLT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="149" width="100" height="20" uuid="e332e706-4d13-43da-8c43-8307a6e2db68"/>
+				<text><![CDATA[PRENOM:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="149" width="100" height="20" uuid="88fc7d6f-08a2-4934-b35f-61a9a7d942c1"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_PRENOMCLT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="169" width="100" height="20" uuid="e73d660e-e3b9-4ce9-a9d4-42b4eed7bb67"/>
+				<text><![CDATA[CIN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="169" y="169" width="100" height="20" uuid="29f81ea0-b566-4df8-b367-e769714e5040"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_CIN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="22" splitType="Stretch"/>
+	</summary>
+</jasperReport>

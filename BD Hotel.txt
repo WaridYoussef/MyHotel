@@ -1,0 +1,220 @@
+create user hotel identified by hotel;
+
+User created.
+
+SQL> grant connect , resource to hotel;
+
+Grant succeeded.
+
+create table compte(login varchar2(50) primary key,mdp varchar2(50),
+role varchar2(200) check(role in('responsable','admin')),
+question varchar2(200),reponse varchar2(200));
+
+create table Categorie(idcat number(15) primary key,
+description varchar2(154));
+
+create table ville(idville number(10) primary key, nomville varchar2(100));
+
+create table etoile(idetoile number(10) primary key);
+
+
+create table responsable(idr number(10) constraint pk_id_respo primary key,
+nom varchar2(200),
+prenom varchar2(200),
+email varchar2(200),
+login varchar2(200),
+constraint fk_respo_login foreign key(login) references compte(login));
+alter table responsable add(imgres varchar2(100), datenaiss date);
+
+create table hotel(idh number(10) constraint pk_id_hotel primary key,
+nomh varchar2(30),
+idville number(10),
+img varchar2(200),
+idr number(10),
+etat varchar2(55) check(etat in('accepte','refuse','en cours')),
+adresse varchar2(100),
+idetoile number(10),
+constraint idville_hotel foreign key (idville) references ville(idville),
+constraint idetoile_hotel foreign key (idetoile) references etoile(idetoile),
+constraint idr_respo_fk foreign key (idr) references responsable(idr));
+alter table hotel add(datepub date);
+
+
+create table chambre(idch varchar2(200) constraint pk_idchambre primary key,
+imgch varchar2(200),prix number(6,2),idcat number(15),idh number(10),
+constraint idca_categ_fk foreign key(idcat) references categorie(idcat),
+constraint idh_hotel_fk foreign key(idh) references hotel(idh));
+alter table chambre add(etatch varchar2(150) constraint check_etatch check(etatch='disponible' or etatch='reserve'));
+alter table chambre add(numch number(10));
+
+create table client(idclt number(10) constraint pk_clt_id primary key,cin varchar2(10),
+nomclt varchar2(30),
+prenomclt varchar2(30),
+villeclt varchar2(30),
+adresseclt varchar2(100),
+email varchar2(50),
+tel varchar2(10),
+situation number(1) constraint check_situation_client check(situation=0 or situation=1));
+
+
+create table reservation(num_res number(10) constraint pk_num_res primary key,
+datedebut date,
+datefin date,
+idh number(10),
+idch varchar2(200),
+idclt number(10),
+constraint fk_res_idh foreign key(idh) references hotel(idh),
+constraint fk_res_idch foreign key(idch) references chambre(idch),
+constraint fk_res_idclt foreign key(idclt) references client(idclt));
+
+create table commentaire(idc number(10) primary key,
+pseudo varchar2(55),
+titre varchar2(55),
+datecom date ,
+text varchar2(1000),
+email varchar2(55),
+nbrlike number(15) ,
+nbrunlike number(15)
+);
+
+create table likes (idc number(10) references commentaire(idc),
+sessionid varchar2(100),
+action varchar2(10),
+CONSTRAINT constraint_likes_ck check (action in ('like','unlike')),
+CONSTRAINT constraint_likes_pk primary key (sessionid,idc)
+);
+
+create sequence seq_res;
+
+create sequence seq_clt;
+
+create sequence seq_h;
+
+create sequence seq_comm;
+
+
+insert into compte values('amin','amin','responsable','votre equipe?','raja');
+
+insert into compte values('zakaria','zakaria','responsable','votre sport?','musculation');
+
+insert into compte values('youssef','youssef','admin','votre 1er programme','hello world');
+
+insert into responsable values(1,'amin','amin','amin@gmail.com','amin','respo1.jpg','12/12/1999');
+
+insert into responsable values(2,'zakaria','zakaria','zakaria@gmail.com','zakaria','respo3.jpg','12/12/1997');
+
+insert into responsable values(3,'youssef','youssef','youssef@gmail.com','youssef','admin.jpg','12/12/1989');
+
+insert into categorie values(1,'1personne');
+
+insert into categorie values(2,'2personne');
+
+insert into categorie values(3,'familiale');
+
+insert into etoile values(1);
+
+insert into etoile values(2);
+
+insert into etoile values(3);
+
+insert into etoile values(4);
+
+insert into etoile values(5);
+
+insert into ville values(1, 'casablanca');
+
+insert into ville values(2, 'rabat');
+
+insert into ville values(3, 'marrakech');
+
+insert into ville values(4, 'tanger');
+
+insert into ville values(5, 'agadir');
+
+insert into ville values(6, 'nador');
+
+insert into ville values(7, 'taza');
+
+insert into ville values(8, 'chefchaoun');
+
+insert into hotel values(seq_h.nextval,'manzeh','1','hotel1.jpg',1,'accepte','sidiMaarouf',4,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'rahma','1','hotel1.jpg',1,'accepte','sidiMaarouf',4,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'molotov','1','hotel1.jpg',1,'accepte','sidiMaarouf',4,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'menara','3','hotel2.jpg',1,'accepte','enakhil',5,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'mogabi','3','hotel2.jpg',1,'accepte','enakhil',5,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'smara','4','hotel2.jpg',1,'accepte','enakhil',5,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'monopak','4','hotel3.jpg',1,'accepte','maarif',4,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'mondach','5','hotel3.jpg',1,'accepte','maarif',4,'01/04/2020');
+
+insert into hotel values(seq_h.nextval,'sipana','6','hotel3.jpg',1,'accepte','maarif',4,'01/04/2020');
+
+insert into chambre values('manzah1','imgch.jpg',1000,1,1,'disponible',1);
+
+insert into chambre values('manzah2','imgch.jpg',1000,1,1,'disponible',2);
+
+insert into chambre values('manzah3','imgch.jpg',1000,1,1,'disponible',3);
+
+insert into chambre values('manzah4','imgch.jpg',1000,1,2,'disponible',4);
+
+insert into chambre values('manzah5','imgch.jpg',1000,2,2,'disponible',5);
+
+insert into chambre values('manzah6','imgch.jpg',1000,2,2,'disponible',6);
+
+insert into chambre values('manzah7','imgch.jpg',1000,2,3,'disponible',7);
+
+insert into chambre values('manzah8','imgch.jpg',1000,2,3,'disponible',8);
+
+insert into chambre values('manzah9','imgch.jpg',1000,3,3,'disponible',9);
+
+insert into chambre values('manzah10','imgch.jpg',1000,3,4,'disponible',10);
+
+insert into chambre values('manzah11','imgch.jpg',1000,3,4,'disponible',11);
+
+insert into chambre values('monopak1','imgch.jpg',1000,1,5,'disponible',1);
+
+insert into chambre values('monopak2','imgch.jpg',1000,1,5,'disponible',2);
+
+insert into chambre values('monopak3','imgch.jpg',1000,1,5,'disponible',3);
+
+insert into chambre values('monopak4','imgch.jpg',1000,1,5,'disponible',4);
+
+insert into chambre values('monopak5','imgch.jpg',1000,2,5,'disponible',5);
+
+insert into chambre values('monopak6','imgch.jpg',1000,2,17,'disponible',6);
+
+insert into chambre values('monopak7','imgch.jpg',1000,2,5,'disponible',7);
+
+insert into chambre values('monopak8','imgch.jpg',1000,2,5,'disponible',8);
+
+insert into chambre values('monopak9','imgch.jpg',1000,3,6,'disponible',9);
+
+insert into chambre values('monopak10','imgch.jpg',1000,3,6,'disponible',10);
+
+insert into chambre values('monopak11','imgch.jpg',1000,3,6,'disponible',11);
+
+drop table responsable;
+
+drop table compte;
+
+drop table reservation;
+
+drop table client;
+
+drop table hotel;
+
+drop table commentaire;
+
+drop table likes;
+
+
+ 
+
+String req = "select nomclt,prenomclt,email,cin,idclt,numch,datedebut,datefin,adresseclt,villeclt,tel,situation,idch,imgch,idcat from Reservation join client using (idclt) join hotel using (idh) join chambre using(idch)"
+                    + " where cin='" + cin + "' and idclt=" + idclt + " and idch='" + idch + "' and num_res=" + num_res;
